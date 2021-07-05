@@ -1,3 +1,3 @@
-#Robot Gladiators!
+# Robot Gladiators!
 
-##Build up your robot and defeat your enemies!
+## Build up your robot and defeat your enemies!
