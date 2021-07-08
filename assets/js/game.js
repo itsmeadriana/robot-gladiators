@@ -2,7 +2,7 @@ alert("Welcome to Robot Gladiators! And godspeed.")
 
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
-var playerAttack= 30;
+var playerAttack= 10;
 var playerMoney = 10;
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble", "Merlin"];
@@ -65,7 +65,7 @@ var fight = function(enemyName) {
 
 var startGame = function() {
     playerHealth = 100;
-    playerAttack = 30;
+    playerAttack = 10;
     playerMoney = 10;
 
     for(var i = 0; i <= enemyNames.length; i++) {
@@ -77,6 +77,12 @@ var startGame = function() {
             enemyHealth = 50;
         
             fight(pickedEnemyName);
+
+        if(playerHealth > 0 && i < enemyNames.length -1) {
+          var storeConfirm = window.confirm("Phew! This fight's over. Wanna visit the shop before you face your next enemy?")
+            
+            if (storeConfirm) shop();
+        }
         }
         
         else {
@@ -90,18 +96,51 @@ var startGame = function() {
 
 var endGame = function() {
     if (playerHealth => 1) {
-        // debugger;
         window.alert("YASSSSS! YOU DID IT!!! YOU ARE THE GLADIATOR OF ALL GLADIATORS! Let's take a look at your spoils: " + playerMoney + " tokens and some scrap metal. Hey, one person's trash is another robot's upgrade, I guess.")
     }
     else {
     window.alert("Let us mourn " + playerName + ": A fighter til the end. Gone, but not forgotten.");
     }
-var playAgainConfirm = window.confirm("Wanna have another go at it, Sport?");
+var playAgainConfirm = window.confirm("Wanna have another go at it?");
     if (playAgainConfirm) {
         startGame();
     }
     else {
-        window.alert("Alright, well catch you on the flipside, Sport. Thanks for stopping by!")
+        window.alert("Totally cool. Thanks for stopping by!")
+    }
+}
+
+var shop = function() {
+    
+   
+var shopOptionPrompt = window.prompt (
+    "Come on in! Here you can charge up and REFILL those health batteries, UPGRADE your attack power--all that scrap metal will finally come in handy!--or awkwardly LEAVE after just having walked in."
+    );
+    switch(shopOptionPrompt) {
+        case "refill":
+            window.alert("That'll be 7 tokens for +20 HEALTH. I know; healthcare ain't cheap.");
+
+            playerHealth = +20;
+            playerMoney = -7;
+            break;
+        
+        case "upgrade":
+            window.alert("You got it, killa! Here's an UPGRADE of +6 attack power. Only 7 tokens!")
+
+            playerAttack = +6;
+            playerMoney = -7;
+            break;
+
+        case "leave":
+            window.alert("An awkward goodbye it is ...");
+
+            break;
+       
+        default:
+            window.alert("Was that Orkish? Elvish? You nerds and your funny languages--I don't understand them at all so you'll have to use plain English. You can REFILL, UPGRADE, or LEAVE. Up to you.");
+
+            shop();
+            break;
     }
 }
 
