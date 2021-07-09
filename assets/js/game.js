@@ -37,7 +37,7 @@ var fight = function(enemyName) {
     
     
         if (enemyHealth <= 0) {
-            window.alert(enemyName + " has perished! Take their money and what's left of the poor sucker's health.");
+            window.alert(enemyName + " has perished! Take their money and what's left of the poor sucker's battery life.");
 
             playerMoney = playerMoney + 20;
             playerHealth = playerHealth + 8; 
@@ -95,7 +95,7 @@ var startGame = function() {
 };
 
 var endGame = function() {
-    if (playerHealth => 1) {
+    if (playerHealth > 0) {
         window.alert("YASSSSS! YOU DID IT!!! YOU ARE THE GLADIATOR OF ALL GLADIATORS! Let's take a look at your spoils: " + playerMoney + " tokens and some scrap metal. Hey, one person's trash is another robot's upgrade, I guess.")
     }
     else {
@@ -114,24 +114,36 @@ var shop = function() {
     
    
 var shopOptionPrompt = window.prompt (
-    "Come on in! Here you can charge up and REFILL those health batteries, UPGRADE your attack power--all that scrap metal will finally come in handy!--or awkwardly LEAVE after just having walked in."
+    "Come on in! Here you can charge up and REFILL those health batteries, put all that scrap metal to good use and UPGRADE your attack power.\nOr you can LEAVE after just having walked in and we can pretend this never happened."
     );
     switch(shopOptionPrompt) {
         case "refill":
-            window.alert("That'll be 7 tokens for +20 HEALTH. I know; healthcare ain't cheap.");
+        case "REFILL":
+          if (playerMoney >= 7) {
+            window.alert("That'll be 9 tokens for +24 HEALTH. I know; healthcare ain't cheap.");
 
-            playerHealth = +20;
-            playerMoney = -7;
+            playerHealth = playerHealth +24;
+            playerMoney = playerMoney -9;    
+          }
+        else {
+            window.alert("YOU BROKE, BITCH. Better get back out there and make some money.");
+        }
             break;
-        
         case "upgrade":
+        case "UPGRADE":
+         if (playerMoney >= 7) {
             window.alert("You got it, killa! Here's an UPGRADE of +6 attack power. Only 7 tokens!")
 
-            playerAttack = +6;
-            playerMoney = -7;
+            playerAttack = playerAttack +6;
+            playerMoney = playerMoney -7;
+            
+         }
+         else {window.alert("YOU BROKE, BITCH. Better get back out there and make some money.");
+         }
             break;
-
+        
         case "leave":
+        case "LEAVE":
             window.alert("An awkward goodbye it is ...");
 
             break;
