@@ -1,4 +1,4 @@
-alert("Welcome to Robot Gladiators! Godspeed.")
+window.alert("Welcome to Robot Gladiators! Godspeed.")
 
 var randomNumber = function(min, max) {
     var value = Math.floor(Math.random() * (max - min +1) + min);
@@ -62,34 +62,48 @@ var enemyInfo = [
     },
 ];
 
-// console.log(enemy.names);
-// console.log(enemy.names.length);
-// console.log(enemy.names[0]);
-// console.log(enemy.names[1]);
-// console.log(enemy.names[2]);
+var fightOrSkip = function() {
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+    
+    promptFight = promptFight.toLowerCase();
+    
+
+    if (promptFight === "" || promptFight === "null") {
+        window.alert("Sorry, I didn't catch that. Please try again.");
+        return fightOrSkip();
+        
+    }  
+    
+    if (promptFight === "skip") {
+        var confirmSkip = window.confirm("Sure you wanna skip this one, Bud?");  
+    
+    if (confirmSkip) {
+        window.alert("Go ahead; catch your breath. " + playerInfo.name + " has chosen to skip this fight. And that's okay.");
+        playerInfo.money = Math.max(0, playerInfo.money - 10);
+        console.log("playerInfo.money", playerInfo.money);
+        shop();
+        
+        return true;
+    }
+
+    else {
+        alert("LET'S GOOOOOOO!");
+        // fight();
+    }
+    return false;
+    }
+}
 
 var fight = function(enemy) {   
     while(playerInfo.health > 0 && enemy.health > 0) {
-      var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-        
-        if (promptFight === "skip" || promptFight === "SKIP") {
-          var confirmSkip = window.confirm("Sure you wanna skip this one, Bud?");
-
-        if (confirmSkip) {
-            window.alert("Go ahead; catch your breath. " + playerInfo.name + " has chosen to skip this fight. And that's okay.");
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-            console.log("playerInfo.money", playerInfo.money);
+        if (fightOrSkip()) {
             break;
         }
-    }
-    alert("LET'S GOOOOOOO!");
-    var damage = randomNumber(playerInfo.attack -3, playerInfo.attack);
-    enemy.health = Math.max(0, enemy.health - damage);  
-    console.log(
-            playerInfo.name + " attacked" +  enemy.name + ". "  +  enemy.name + " now has " + enemy.health + " health remaining."
-            );
-    
-    
+        
+        var damage = randomNumber(playerInfo.attack -3, playerInfo.attack);
+        enemy.health = Math.max(0, enemy.health - damage);  
+        console.log(playerInfo.name + " attacked" +  enemy.name + ". "  +  enemy.name + " now has " + enemy.health + " health remaining.");
+            
         if (enemy.health <= 0) {
             window.alert(enemy.name + " has perished! Take their money and what's left of the poor sucker's battery life.");
 
@@ -101,22 +115,20 @@ var fight = function(enemy) {
         else {
             window.alert(enemy.name + " still has " + enemy.health + " health left.");
         }
-    
-    var damage = randomNumber(enemy.attack - 3, enemy.attack);
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
-    console.log(
-        enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
-        );
+        
+        var damage = randomNumber(enemy.attack - 3, enemy.attack);
+        playerInfo.health = Math.max(0, playerInfo.health - damage);
+        console.log(enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining.");
 
         if (playerInfo.health <= 0) {
             window.alert(playerInfo.name + " has died!");
-            break;
+            // break;
         }
         else {
             window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.") 
         }
     }
-};
+}
 
 var startGame = function() {
    playerInfo.reset();
@@ -134,7 +146,9 @@ var startGame = function() {
         if(playerInfo.health > 0 && i < enemyInfo.length -1) {
           var storeConfirm = window.confirm("Phew! This fight's over. Wanna visit the shop before you face your next enemy?")
             
-            if (storeConfirm) shop();
+            if (storeConfirm) {
+                shop();
+            } 
         }
         }
         
@@ -143,7 +157,6 @@ var startGame = function() {
             break;
         }
     }
-    // startGame();
     endGame();
 };
 
@@ -168,19 +181,16 @@ var shop = function() {
    
 var shopOptionPrompt = window.prompt (
     "Come on in! Here you can charge up and REFILL those health batteries, put all that scrap metal to good use and UPGRADE your attack power.\nOr you can LEAVE after just having walked in and we can pretend this never happened."
-    );
+    ).toLowerCase(); 
     switch(shopOptionPrompt) {
         case "refill":
-        case "REFILL":
           playerInfo.refillHealth();
             break;
         case "upgrade":
-        case "UPGRADE":
             playerInfo.upgradeAttack();
             break;
         
         case "leave":
-        case "LEAVE":
             window.alert("An awkward goodbye it is ...");
 
             break;
