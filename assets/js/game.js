@@ -180,17 +180,20 @@ var shop = function() {
     
    
 var shopOptionPrompt = window.prompt (
-    "Come on in! Here you can charge up and REFILL those health batteries, put all that scrap metal to good use and UPGRADE your attack power.\nOr you can LEAVE after just having walked in and we can pretend this never happened."
+    "Come on in! Here you can charge up and REFILL those health batteries, put all that scrap metal to good use and UPGRADE your attack power.\nOr you can LEAVE after just having walked in and we can pretend this never happened.\nPlease enter 1 for REFILL, 2 for UPGRADE or 3 to LEAVE."
     ).toLowerCase(); 
+    
+    shopOptionPrompt = parseInt(shopOptionPrompt);
+
     switch(shopOptionPrompt) {
-        case "refill":
+        case 1:
           playerInfo.refillHealth();
             break;
-        case "upgrade":
+        case 2:
             playerInfo.upgradeAttack();
             break;
         
-        case "leave":
+        case 3:
             window.alert("An awkward goodbye it is ...");
 
             break;
