@@ -63,15 +63,12 @@ var enemyInfo = [
 ];
 
 var fightOrSkip = function() {
-    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'SKIP' to SKIP or literally anything else to FIGHT.").toLowerCase();       
+    console.log("promptFight =" + promptFight);
     
-    promptFight = promptFight.toLowerCase();
-    
-
     if (promptFight === "" || promptFight === "null") {
         window.alert("Sorry, I didn't catch that. Please try again.");
-        return fightOrSkip();
-        
+        return fightOrSkip();      
     }  
     
     if (promptFight === "skip") {
@@ -94,15 +91,20 @@ var fightOrSkip = function() {
     }
 }
 
-var fight = function(enemy) {   
+var fight = function(enemy) { 
+    var isPlayerTurn = true;
+        if (Math.random() > 0.5) {
+            isPlayerTurn = false;
+        }
+    
     while(playerInfo.health > 0 && enemy.health > 0) {
         if (fightOrSkip()) {
             break;
         }
         
-        var damage = randomNumber(playerInfo.attack -3, playerInfo.attack);
+    var damage = randomNumber(playerInfo.attack -3, playerInfo.attack); {
         enemy.health = Math.max(0, enemy.health - damage);  
-        console.log(playerInfo.name + " attacked" +  enemy.name + ". "  +  enemy.name + " now has " + enemy.health + " health remaining.");
+        console.log(playerInfo.name + " attacked " +  enemy.name + ". "  +  enemy.name + " now has " + enemy.health + " health remaining.");
             
         if (enemy.health <= 0) {
             window.alert(enemy.name + " has perished! Take their money and what's left of the poor sucker's battery life.");
@@ -115,8 +117,9 @@ var fight = function(enemy) {
         else {
             window.alert(enemy.name + " still has " + enemy.health + " health left.");
         }
-        
-        var damage = randomNumber(enemy.attack - 3, enemy.attack);
+    }
+
+    var damage = randomNumber(enemy.attack - 3, enemy.attack); {
         playerInfo.health = Math.max(0, playerInfo.health - damage);
         console.log(enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining.");
 
@@ -127,13 +130,15 @@ var fight = function(enemy) {
         else {
             window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.") 
         }
+      }      
+    isPlayerTurn = !isPlayerTurn;   
     }
 }
 
 var startGame = function() {
    playerInfo.reset();
 
-    for(var i = 0; i <= enemyInfo.length; i++) {
+    for(var i = 0; i < enemyInfo.length; i++) {
         if (playerInfo.health > 0) {
             window.alert("Welcome to Robot Gladiators: Round " + ( i + 1) + ". Hold on to your tin bucket hats!");
 
@@ -143,22 +148,19 @@ var startGame = function() {
         
             fight(pickedEnemyObj);
 
-        if(playerInfo.health > 0 && i < enemyInfo.length -1) {
-          var storeConfirm = window.confirm("Phew! This fight's over. Wanna visit the shop before you face your next enemy?")
+            if(playerInfo.health > 0 && i < enemyInfo.length -1) {
+                var storeConfirm = window.confirm("Phew! This fight's over. Wanna visit the shop before you face your next enemy?");
             
-            if (storeConfirm) {
-                shop();
-            } 
-        }
-        }
-        
-        else {
+                if (storeConfirm) {
+                    shop();
+                }
+            }
+        } else {             
             alert("You have lost your robot in battle! RIP to them and a formal GAME OVER for you.");
-            break;
         }
     }
-    endGame();
-};
+    endGame();   
+}
 
 var endGame = function() {
     if (playerInfo.health > 0) {
@@ -172,38 +174,37 @@ var playAgainConfirm = window.confirm("Wanna have another go at it?");
         startGame();
     }
     else {
-        window.alert("Totally cool. Thanks for stopping by!")
+        window.alert("Totally cool. Thanks for stopping by!");
     }
 }
 
 var shop = function() {
-    
-   
-var shopOptionPrompt = window.prompt (
-    "Come on in! Here you can charge up and REFILL those health batteries, put all that scrap metal to good use and UPGRADE your attack power.\nOr you can LEAVE after just having walked in and we can pretend this never happened.\nPlease enter 1 for REFILL, 2 for UPGRADE or 3 to LEAVE."
-    ).toLowerCase(); 
-    
+      
+    var shopOptionPrompt = window.prompt (
+        "Come on in! Here you can charge up and REFILL those health batteries, put all that scrap metal to good use and UPGRADE your attack power.\nOr you can LEAVE after just having walked in and we can pretend this never happened.\nPlease enter 1 for REFILL, 2 for UPGRADE or 3 to LEAVE."
+        ); 
+        
     shopOptionPrompt = parseInt(shopOptionPrompt);
 
-    switch(shopOptionPrompt) {
-        case 1:
-          playerInfo.refillHealth();
-            break;
-        case 2:
-            playerInfo.upgradeAttack();
-            break;
-        
-        case 3:
-            window.alert("An awkward goodbye it is ...");
+        switch(shopOptionPrompt) {
+            case 1:
+                playerInfo.refillHealth();
+                break;
+            case 2:
+                playerInfo.upgradeAttack();
+                break;
+            
+            case 3:
+                window.alert("An awkward goodbye it is ...");
 
-            break;
-       
-        default:
-            window.alert("Was that Orkish? Elvish? You nerds and your funny languages--I don't understand them at all so you'll have to use plain English. You can REFILL, UPGRADE, or LEAVE. Up to you.");
+                break;
+            
+            default:
+                window.alert("Was that Orkish? Elvish? You nerds and your funny languages--I don't understand them at all so you'll have to use plain English. You can REFILL, UPGRADE, or LEAVE. Up to you.");
 
-            shop();
-            break;
-    }
+                shop();
+                break;
+        }
 }
 
 var randomNumber = function(min, max) {
