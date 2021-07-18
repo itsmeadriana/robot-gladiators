@@ -109,8 +109,8 @@ var fight = function(enemy) {
         if (enemy.health <= 0) {
             window.alert(enemy.name + " has perished! Take their money and what's left of the poor sucker's battery life.");
 
-            playerInfo.money = playerInfo.money + 20;
-            playerInfo.health = playerInfo.health + 8; 
+            playerInfo.money = playerInfo.money + 22;
+            playerInfo.health = playerInfo.health + 9; 
 
             break;
         }
@@ -169,13 +169,34 @@ var endGame = function() {
     else {
     window.alert("Let us mourn " + playerInfo.name + ": A fighter til the end. Gone, but not forgotten.");
     }
-var playAgainConfirm = window.confirm("Wanna have another go at it?");
+
+    var highScore = localStorage.getItem("highscore");
+        if (highScore === null) {
+            highScore =  0;
+        }
+    
+        if (playerInfo.money > highScore) {
+            localStorage.setItem("highScore", playerInfo.money);
+            localStorage.setItem("name", playerInfo.name);
+        
+        alert("HOLY GUACAMOLE! " + playerInfo.name + " now has the high score of " + playerInfo.money + "! Congratulations! I wasn't betting against you at all ... How much do I owe the bookie now...? And at what amount do I admit I have a problem?");
+    }
+   
+    else {
+        alert("Good game! Unfortunately, your robot, " + playerInfo.name + " didn't beat the high score of " + highScore + ". Better luck next time! ... Where's the bookie? I'm going home a little richer today!");
+    } 
+    
+    var playAgainConfirm = window.confirm("Wanna have another go at it?");
     if (playAgainConfirm) {
         startGame();
     }
     else {
         window.alert("Totally cool. Thanks for stopping by!");
     }
+
+
+
+
 }
 
 var shop = function() {
